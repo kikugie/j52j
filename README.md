@@ -14,7 +14,7 @@ pluginManagement {
 }
 // build.gradle.kts
 plugins {
-    id("dev.kikugie.j52j") version "1.0.1"
+    id("dev.kikugie.j52j") version "1.0.2"
 }
 ```
 
@@ -27,7 +27,7 @@ pluginManagement {
 }
 // build.gradle
 plugins {
-    id "dev.kikugie.j52j" version "1.0.1"
+    id "dev.kikugie.j52j" version "1.0.2"
 }
 ```
 

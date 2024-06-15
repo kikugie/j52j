@@ -16,6 +16,9 @@ import org.gradle.kotlin.dsl.register
 import java.io.File
 import java.io.FilterReader
 import java.io.Reader
+import java.nio.file.Files
+import java.nio.file.Path
+import kotlin.io.path.*
 
 open class J52JPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -58,23 +61,28 @@ abstract class J52JConverter : DefaultTask() {
     @get:Input
     abstract val source: Property<SourceSet>
 
+    @OptIn(ExperimentalPathApi::class)
     @TaskAction
     private fun run() {
-        val dir = source.get().output.resourcesDir ?: throw IllegalStateException("No output resource dir")
-        project.copy {
-            filteringCharset = "UTF-8"
-            from(dir)
-            include { it.file.extension == "json5" }
-            exclude { startsWithKey(it.file) }
-            filter<J52JProcessor>()
-            rename { it.substring(0, it.lastIndex) } // Epic 5 removal
-            into(dir)
-        }
-        project.delete {
-            delete(project.fileTree(dir) {
+        val root = source.get().output.resourcesDir ?: throw IllegalStateException("No output resource dir")
+        // Stupid fucking ass gradle
+        root.toPath().walk(PathWalkOption.INCLUDE_DIRECTORIES).filter(Files::isDirectory).forEach { path ->
+            val dir = path.toFile()
+            project.copy {
+                filteringCharset = "UTF-8"
+                from(dir)
                 include("*.json5")
                 exclude { startsWithKey(it.file) }
-            })
+                filter<J52JProcessor>()
+                rename { it.substring(0, it.lastIndex) } // Epic 5 removal
+                into(dir)
+            }
+            project.delete {
+                delete(project.fileTree(dir) {
+                    include("*.json5")
+                    exclude { startsWithKey(it.file) }
+                })
+            }
         }
     }
 }
