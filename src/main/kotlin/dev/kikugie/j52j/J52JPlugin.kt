@@ -64,7 +64,7 @@ abstract class J52JConverter : DefaultTask() {
         project.copy {
             filteringCharset = "UTF-8"
             from(dir)
-            include("*.json5")
+            include { it.file.extension == "json5" }
             exclude { startsWithKey(it.file) }
             filter<J52JProcessor>()
             rename { it.substring(0, it.lastIndex) } // Epic 5 removal
