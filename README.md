@@ -3,6 +3,10 @@
 
 Simple Gradle plugin that converts `.json5` files into `.json` when gradle processes resources.
 
+> [!WARNING]
+> You can't use `fabric.mod.json5` with this plugin.
+> Fabric Loom reads `fabric.mod.json` directly from the source code and doesn't work with the `.json5` format.
+
 ## Setup
 Add the plugin using
 ```kotlin
