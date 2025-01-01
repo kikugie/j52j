@@ -63,7 +63,7 @@ abstract class J52JConverter : DefaultTask() {
 
     @OptIn(ExperimentalPathApi::class)
     @TaskAction
-    private fun run() {
+    public fun run() {
         val root = source.get().output.resourcesDir ?: throw IllegalStateException("No output resource dir")
         // Stupid fucking ass gradle
         root.toPath().walk(PathWalkOption.INCLUDE_DIRECTORIES).filter(Files::isDirectory).forEach { path ->
