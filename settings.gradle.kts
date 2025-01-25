@@ -5,6 +5,6 @@ pluginManagement {
     }
 }
 
-
+includeBuild("test")
 rootProject.name = "J52J"
 

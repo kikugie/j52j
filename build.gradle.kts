@@ -3,18 +3,26 @@ plugins {
     `kotlin-dsl`
     `maven-publish`
     `java-gradle-plugin`
-    kotlin("jvm") version "1.9.24"
+    kotlin("jvm") version "2.1.0"
 }
 
 group = "dev.kikugie"
-version = "1.0.3"
+version = "2.0"
 
 repositories {
     mavenCentral()
+    maven("https://maven.quiltmc.org/repository/release") {
+        name = "QuiltMC"
+    }
 }
 
 dependencies {
-    implementation("blue.endless:jankson:1.2.3")
+    implementation("org.quiltmc.parsers:gson:0.2.1")
+    testImplementation(kotlin("test"))
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 kotlin {
